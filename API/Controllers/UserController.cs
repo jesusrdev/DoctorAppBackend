@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Data;
 using Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
+        [Authorize]
         [HttpGet] // api/user
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -29,6 +31,7 @@ namespace API.Controllers
             return Ok(users);
         }
 
+        [Authorize]
         [HttpGet("{id}")]   //  api/user/[id]
         public async Task<ActionResult<User>> GetUser(int id)
         {
