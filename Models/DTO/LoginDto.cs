@@ -1,4 +1,4 @@
-namespace Models.DTOs;
+namespace Models.DTO;
 
 public class LoginDto
 {
