@@ -1,4 +1,5 @@
 using System.Text;
+using API.Extensions;
 using Data;
 using Data.Interfaces;
 using Data.Services;
@@ -12,60 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-//* Configuring the swagger
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Enter Bearer [space] token \r\n\n " +
-                      "Example: Bearer ejoy^888800009899999999",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Scheme = "Bearer"
-    });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
-            },
-            new List<string>()
-        }
-    });
-});
 
-//* Connecting to the db by connection string
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-//* Fixing the cors problem
-builder.Services.AddCors();
+//* Adding the extension application service
+builder.Services.AddApplicationServices(builder.Configuration);
 
-//* Adding the JWT service
-builder.Services.AddScoped<ITokenService, TokenService>();
-
-//* Adding jwt bearer service
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-    options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
-            ValidateIssuer = false,
-            ValidateAudience = false,
-        };
-    });
+//* Adding the extension identity service
+builder.Services.AddIdentityServices(builder.Configuration);
 
 
 var app = builder.Build();
