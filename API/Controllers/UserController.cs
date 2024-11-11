@@ -6,9 +6,7 @@ using Models.Entities;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")] //? api/user HttpGet, HttpPost
-    [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : BaseApiController
     {
         
         private readonly ApplicationDbContext _db;
