@@ -1,4 +1,6 @@
 using Data;
+using Data.Interfaces;
+using Data.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 //* Fixing the cors problem
 builder.Services.AddCors();
+
+
+//* Adding the JWT service
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 var app = builder.Build();
