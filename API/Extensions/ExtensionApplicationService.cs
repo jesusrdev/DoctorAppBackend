@@ -1,4 +1,6 @@
 using API.Errors;
+using BLL.Services;
+using BLL.Services.Interfaces;
 using Data;
 using Data.Interfaces;
 using Data.Interfaces.IRepository;
@@ -80,6 +82,9 @@ public static class ExtensionApplicationService
 
         //* Adding the automapper service
         services.AddAutoMapper(typeof(MappingProfile));
+        
+        //* Adding the specialty service of DDL
+        services.AddScoped<ISpecialtyService, SpecialtyService>();
 
         return services;
     }

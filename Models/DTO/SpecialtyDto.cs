@@ -14,5 +14,5 @@ public class SpecialtyDto
     [StringLength(100, MinimumLength = 1, ErrorMessage = "The Description must have at minimum 1 and maximum 100 characters")]
     public string Description { get; set; }
 
-    public bool State { get; set; } // 1 - 0
+    public int State { get; set; } // 1 - 0
 }
