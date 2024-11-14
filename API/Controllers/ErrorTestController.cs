@@ -1,3 +1,4 @@
+using API.Errors;
 using Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class ErrorTestController : BaseApiController
     [HttpGet("not-found")]
     public ActionResult<User> GetNotFound()
     {
-        return NotFound();
+        return NotFound(new ApiErrorResponse(404));
     }
 
     [HttpGet("server-error")]
@@ -41,6 +42,6 @@ public class ErrorTestController : BaseApiController
     [HttpGet("bad-request")]
     public ActionResult<string> GetBadRequest()
     {
-        return BadRequest();
+        return BadRequest(new ApiErrorResponse(400));
     }
 }
