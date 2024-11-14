@@ -20,6 +20,9 @@ var app = builder.Build();
 //* The middleware was going before the pipeline
 app.UseMiddleware<ExceptionMiddleware>();
 
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
