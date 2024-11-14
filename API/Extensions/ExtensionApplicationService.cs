@@ -1,6 +1,8 @@
+using API.Errors;
 using Data;
 using Data.Interfaces;
 using Data.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -50,6 +52,25 @@ public static class ExtensionApplicationService
 
         //* Adding the JWT service
         services.AddScoped<ITokenService, TokenService>();
+
+        //* Improving API validation errors
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.InvalidModelStateResponseFactory = actionContext =>
+            {
+                var errors = actionContext.ModelState
+                    .Where(e => e.Value.Errors.Count > 0)
+                    .SelectMany(x => x.Value.Errors)
+                    .Select(x => x.ErrorMessage).ToArray();
+
+                var errorResponse = new ApiValidationErrorResponse()
+                {
+                    Errors = errors
+                };
+
+                return new BadRequestObjectResult(errorResponse);
+            };
+        });
 
         return services;
     }
