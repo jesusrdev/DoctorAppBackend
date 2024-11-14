@@ -1,6 +1,8 @@
 using API.Errors;
 using Data;
 using Data.Interfaces;
+using Data.Interfaces.IRepository;
+using Data.Repository;
 using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,6 +73,9 @@ public static class ExtensionApplicationService
                 return new BadRequestObjectResult(errorResponse);
             };
         });
+
+        //* Adding the Unit Of Work
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
