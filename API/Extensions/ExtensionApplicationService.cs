@@ -7,6 +7,7 @@ using Data.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Utils;
 
 namespace API.Extensions;
 
@@ -76,6 +77,9 @@ public static class ExtensionApplicationService
 
         //* Adding the Unit Of Work
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        //* Adding the automapper service
+        services.AddAutoMapper(typeof(MappingProfile));
 
         return services;
     }
