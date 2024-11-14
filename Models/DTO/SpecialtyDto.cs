@@ -1,10 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Models.Entities;
+namespace Models.DTO;
 
-public class Specialty
+public class SpecialtyDto
 {
-    [Key]
     public int Id { get; set; }
 
     [Required]
@@ -15,10 +14,5 @@ public class Specialty
     [StringLength(100, MinimumLength = 1, ErrorMessage = "The Description must have at minimum 1 and maximum 100 characters")]
     public string Description { get; set; }
 
-    public bool State { get; set; }
-
-    public DateTime CreationDate { get; set; }
-
-    public DateTime UpdateDate { get; set; }
-    
+    public bool State { get; set; } // 1 - 0
 }

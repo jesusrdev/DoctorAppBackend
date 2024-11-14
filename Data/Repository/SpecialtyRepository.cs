@@ -21,6 +21,7 @@ public class SpecialtyRepository : Repository<Specialty>, ISpecialtyRepository
             specialtyDb.NameSpecialty = specialty.NameSpecialty;
             specialtyDb.Description = specialty.Description;
             specialtyDb.State = specialty.State;
+            specialtyDb.UpdateDate = DateTime.Now;
 
             _db.SaveChanges();
         }
