@@ -85,6 +85,8 @@ public static class ExtensionApplicationService
         
         //* Adding the specialty service of DDL
         services.AddScoped<ISpecialtyService, SpecialtyService>();
+        //* Adding the doctor service of DDL
+        services.AddScoped<IDoctorService, DoctorService>();
 
         return services;
     }
