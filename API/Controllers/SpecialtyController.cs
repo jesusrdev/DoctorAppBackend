@@ -22,12 +22,12 @@ public class SpecialtyController : BaseApiController
         try
         {
             _response.Result = await _specialtyService.GetAll();
-            _response.isSuccessful = true;
+            _response.isSuccessfull = true;
             _response.StatusCode = HttpStatusCode.OK;
         }
         catch (Exception e)
         {
-            _response.isSuccessful = false;
+            _response.isSuccessfull = false;
             _response.Message = e.Message;
             _response.StatusCode = HttpStatusCode.BadRequest;
         }
@@ -41,12 +41,12 @@ public class SpecialtyController : BaseApiController
         try
         {
             await _specialtyService.Add(modelDto);
-            _response.isSuccessful = true;
+            _response.isSuccessfull = true;
             _response.StatusCode = HttpStatusCode.Created;
         }
         catch (Exception e)
         {
-            _response.isSuccessful = false;
+            _response.isSuccessfull = false;
             _response.Message = e.Message;
             _response.StatusCode = HttpStatusCode.BadRequest;
         }
@@ -60,12 +60,12 @@ public class SpecialtyController : BaseApiController
         try
         {
             await _specialtyService.Update(modelDto);
-            _response.isSuccessful = true;
+            _response.isSuccessfull = true;
             _response.StatusCode = HttpStatusCode.NoContent;
         }
         catch (Exception e)
         {
-            _response.isSuccessful = false;
+            _response.isSuccessfull = false;
             _response.Message = e.Message;
             _response.StatusCode = HttpStatusCode.BadRequest;
         }
@@ -79,12 +79,12 @@ public class SpecialtyController : BaseApiController
         try
         {
             await _specialtyService.Remove(id);
-            _response.isSuccessful = true;
+            _response.isSuccessfull = true;
             _response.StatusCode = HttpStatusCode.NoContent;
         }
         catch (Exception e)
         {
-            _response.isSuccessful = false;
+            _response.isSuccessfull = false;
             _response.Message = e.Message;
             _response.StatusCode = HttpStatusCode.BadRequest;
         }
