@@ -52,6 +52,7 @@ public class DoctorService : IDoctorService
         try
         {
             var list = await _unitOfWork.Doctor.GetAll(
+                includeProperties: "Specialty",
                 orderBy: d => d.OrderBy(d => d.Lastname)
             );
 

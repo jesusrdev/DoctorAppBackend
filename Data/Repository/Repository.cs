@@ -22,14 +22,14 @@ public class Repository<T> : IGenericRepository<T> where T : class
 
         if (filter != null)
         {
-            query.Where(filter);
+            query = query.Where(filter);
         }
 
         if (includeProperties != null)
         {
             foreach (var ip in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                query.Include(ip);
+                query = query.Include(ip);
             }
         }
 
@@ -47,14 +47,14 @@ public class Repository<T> : IGenericRepository<T> where T : class
 
         if (filter != null)
         {
-            query.Where(filter);
+            query = query.Where(filter);
         }
 
         if (includeProperties != null)
         {
             foreach (var ip in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                query.Include(ip);
+                query = query.Include(ip);
             }
         }
 

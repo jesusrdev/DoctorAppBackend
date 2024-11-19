@@ -13,7 +13,7 @@ public class DoctorConfiguration : IEntityTypeConfiguration<Doctor>
         builder.Property(x => x.Firstname).IsRequired().HasMaxLength(60);
         builder.Property(x => x.Direction).IsRequired().HasMaxLength(100);
         builder.Property(x => x.Phone).IsRequired(false).HasMaxLength(40);
-        builder.Property(x => x.Genre).IsRequired().HasMaxLength(1);
+        builder.Property(x => x.Genre).IsRequired().HasColumnType("char").HasMaxLength(1);
         builder.Property(x => x.State).IsRequired();
         builder.Property(x => x.SpecialtyId).IsRequired();
         

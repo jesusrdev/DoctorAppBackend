@@ -23,13 +23,12 @@ public class DoctorDto
     public string Phone { get; set; }
     
     [Required(ErrorMessage = "Genre is required")]
-    [StringLength(1, ErrorMessage = "The genre must have at minimum 1 and maximum 1 characters")]
     public char Genre { get; set; }
 
     [Required(ErrorMessage = "Specialty is Required")]
     public int SpecialtyId { get; set; }
 
-    public string NameSpecialty { get; set; }
+    public string? NameSpecialty { get; set; }
 
     public int State { get; set; }
 }
