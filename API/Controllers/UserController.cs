@@ -44,12 +44,12 @@ namespace API.Controllers
         {
             if (await UserExist(signUpDto.Username)) return BadRequest("Username already exist");
 
-            using var hmac = new HMACSHA512();
+            // using var hmac = new HMACSHA512();
             var user = new User
             {
                 Username = signUpDto.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(signUpDto.Password)),
-                PasswordSalt = hmac.Key
+                // PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(signUpDto.Password)),
+                // PasswordSalt = hmac.Key
             };
 
             _db.Users.Add(user);
@@ -69,13 +69,13 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized("Invalid user");
             
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            // using var hmac = new HMACSHA512(user.PasswordSalt);
+            // var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
 
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Incorrect Password");
-            }
+            // for (int i = 0; i < computedHash.Length; i++)
+            // {
+            //     if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Incorrect Password");
+            // }
             // if (computedHash.Where((t, i) => t != user.PasswordHash[i]).Any())
             // {
             //     return Unauthorized("Incorrect Password");
