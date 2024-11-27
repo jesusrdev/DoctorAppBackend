@@ -59,6 +59,23 @@ public class SpecialtyService : ISpecialtyService
         }
     }
 
+    public async Task<IEnumerable<SpecialtyDto>> GetActive()
+    {
+        try
+        {
+            var list = await _unitOfWork.Specialty.GetAll(
+                orderBy: s => s.OrderBy(s => s.NameSpecialty),
+                filter: s => s.State
+            );
+
+            return _mapper.Map<IEnumerable<SpecialtyDto>>(list);
+        }
+        catch (Exception e)
+        {
+            throw;
+        }
+    }
+
     public async Task Update(SpecialtyDto modelDto)
     {
         try

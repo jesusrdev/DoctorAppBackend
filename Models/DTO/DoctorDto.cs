@@ -18,8 +18,8 @@ public class DoctorDto
     [Required(ErrorMessage = "Direction is required")]
     [StringLength(100, MinimumLength = 1, ErrorMessage = "The direction must have at minimum 1 and maximum 100 characters")]
     public string Direction { get; set; } 
-    
-    [StringLength(40, MinimumLength = 1, ErrorMessage = "The phone must have at minimum 1 and maximum 40 characters")]
+
+    [MaxLength(40)]
     public string Phone { get; set; }
     
     [Required(ErrorMessage = "Genre is required")]
