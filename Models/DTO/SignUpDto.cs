@@ -11,4 +11,16 @@ public class SignUpDto
     [StringLength(10, MinimumLength = 4, 
                 ErrorMessage = "The password must have a minimun of 4 characters and a maximum of 10 characters")]
     public string Password { get; set; }
+
+    [Required]
+    public string Lastname { get; set; }
+
+    [Required]
+    public string Firstname { get; set; }
+
+    [Required]
+    public string Email { get; set; }
+
+    [Required]
+    public string  Role { get; set; }
 }

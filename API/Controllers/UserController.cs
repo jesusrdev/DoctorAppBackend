@@ -48,16 +48,21 @@ namespace API.Controllers
             var user = new UserApplication()
             {
                 UserName = signUpDto.Username.ToLower(),
+                Email = signUpDto.Email,
+                Lastname = signUpDto.Lastname,
+                Firstname = signUpDto.Firstname,
             };
 
             var result = await _userManager.CreateAsync(user, signUpDto.Password);
-
             if (!result.Succeeded) return BadRequest(result.Errors);
 
+            var roleResult = await _userManager.AddToRoleAsync(user, signUpDto.Role);
+            if (!roleResult.Succeeded) return BadRequest("Error at adding Role to User");
+            
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
             };
         }
 
@@ -75,7 +80,7 @@ namespace API.Controllers
             return new UserDto
             {
                 Username = user.UserName,
-                Token = _tokenService.CreateToken(user),
+                Token = await _tokenService.CreateToken(user),
             };
         }
         
