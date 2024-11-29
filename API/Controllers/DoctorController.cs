@@ -1,10 +1,12 @@
 using System.Net;
 using BLL.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.DTO;
 
 namespace API.Controllers;
 
+[Authorize(Policy = "AdminSchedulerRole")]
 public class DoctorController : BaseApiController
 {
     private readonly IDoctorService _doctorService;

@@ -33,6 +33,14 @@ public static class ExtensionIdentityService
                 };
             });
 
+
+        services.AddAuthorization(opt =>
+        {
+            opt.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
+            opt.AddPolicy("AdminSchedulerRole", policy => policy.RequireRole("Admin", "Scheduler"));
+            opt.AddPolicy("AdminDoctorRole", policy => policy.RequireRole("Admin", "Doctor"));
+        });
+
         return services;
     }
 }

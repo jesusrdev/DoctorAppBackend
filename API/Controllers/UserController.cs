@@ -40,6 +40,7 @@ namespace API.Controllers
         //     return Ok(user);
         // }
 
+        [Authorize(Policy = "AdminRole")]
         [HttpPost("sign-up")] // POST: api/user/registro
         public async Task<ActionResult<UserDto>> SignUp(SignUpDto signUpDto)
         {
@@ -65,7 +66,7 @@ namespace API.Controllers
                 Token = await _tokenService.CreateToken(user),
             };
         }
-
+        
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
