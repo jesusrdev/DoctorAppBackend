@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using Data.Initializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,9 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 //* Adding the extension identity service
 builder.Services.AddIdentityServices(builder.Configuration);
+
+//* Adding the initializer service
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
 
 var app = builder.Build();
@@ -38,6 +42,25 @@ app.UseCors(x => x.AllowAnyOrigin()
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+    try
+    {
+        var initializer = services.GetRequiredService<IDbInitializer>();
+        initializer.Initialize();
+    }
+    catch (Exception e)
+    {
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(e, "An Error occurred while executing the migration");
+    }   
+}
+
 
 app.MapControllers();
 
