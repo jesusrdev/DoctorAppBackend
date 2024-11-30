@@ -1,3 +1,4 @@
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Data;
@@ -14,14 +15,18 @@ namespace API.Controllers
 {
     public class UserController : BaseApiController
     {
-        
         private readonly UserManager<UserApplication> _userManager;
         private readonly ITokenService _tokenService;
+        private ApiResponse _response;
+        private readonly RoleManager<RoleApplication> _roleManager;
 
-        public UserController(UserManager<UserApplication> userManager, ITokenService tokenService)
+        public UserController(UserManager<UserApplication> userManager, ITokenService tokenService,
+            RoleManager<RoleApplication> roleManager)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _response = new();
+            _roleManager = roleManager;
         }
 
         // [Authorize]
@@ -59,14 +64,14 @@ namespace API.Controllers
 
             var roleResult = await _userManager.AddToRoleAsync(user, signUpDto.Role);
             if (!roleResult.Succeeded) return BadRequest("Error at adding Role to User");
-            
+
             return new UserDto
             {
                 Username = user.UserName,
                 Token = await _tokenService.CreateToken(user),
             };
         }
-        
+
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
@@ -84,8 +89,19 @@ namespace API.Controllers
                 Token = await _tokenService.CreateToken(user),
             };
         }
-        
-        
+
+        [Authorize(Policy = "AdminRole")]
+        [HttpGet("list-roles")]
+        public IActionResult GetRoles()
+        {
+            var roles = _roleManager.Roles.Select(r => new { RoleName = r.Name }).ToList();
+            _response.Result = roles;
+            _response.isSuccessfull = true;
+            _response.StatusCode = HttpStatusCode.OK;
+
+            return Ok(_response);
+        }
+
 
         private async Task<bool> UserExist(string username)
         {
