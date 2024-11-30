@@ -29,13 +29,32 @@ namespace API.Controllers
             _roleManager = roleManager;
         }
 
-        // [Authorize]
-        // [HttpGet] // api/user
-        // public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        // {
-        //     var users = await _db.Users.ToListAsync();
-        //     return Ok(users);
-        // }
+        [Authorize(Policy = "AdminRole")]
+        [HttpGet] // api/user
+        public async Task<ActionResult> GetUsers()
+        {
+            var users = await _userManager.Users
+                .Select(u => new ListUserDto()
+                {
+                    Username = u.UserName,
+                    Lastname = u.Lastname,
+                    Firstname = u.Firstname,
+                    Email = u.Email,
+                    Role = string.Join(",", u.UserRoles.Select(ur => ur))
+                })
+                .ToListAsync();
+
+            foreach (var user in users)
+            {
+                var appUser = await _userManager.FindByNameAsync(user.Username);
+                user.Role = string.Join(",", await _userManager.GetRolesAsync(appUser));
+            }
+
+            _response.Result = users;
+            _response.isSuccessfull = true;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+        }
 
         // [Authorize]
         // [HttpGet("{id}")]   //  api/user/[id]
